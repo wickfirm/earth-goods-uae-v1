@@ -420,11 +420,42 @@
     .cat-option { display: none; }
     .cat-option.active { display: block; }
 
+    /* Horizontal scroll carousel */
+    .cat-carousel-wrap { position: relative; }
     .cat-grid {
-      display: grid;
-      grid-template-columns: repeat(8, 1fr);
+      display: flex;
       gap: 16px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 4px 2px 16px;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+              mask-image: linear-gradient(90deg, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
     }
+    .cat-grid::-webkit-scrollbar { display: none; }
+
+    .cat-nav {
+      position: absolute;
+      top: calc(50% - 18px);
+      transform: translateY(-50%);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: #3a8c52;
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid #3a8c52;
+      cursor: pointer;
+      z-index: 4;
+      box-shadow: 0 6px 18px rgba(30,60,35,.18);
+      transition: background 180ms ease, color 180ms ease, transform 180ms ease, opacity 180ms ease;
+    }
+    .cat-nav:hover { background: #fff; color: #3a8c52; transform: translateY(-50%) scale(1.05); }
+    .cat-nav-prev { left: -12px; }
+    .cat-nav-next { right: -12px; }
+    .cat-nav[disabled] { opacity: .3; cursor: not-allowed; pointer-events: none; }
+    .cat-nav svg { width: 18px; height: 18px; }
 
     .cat-card {
       display: flex; flex-direction: column; align-items: center; gap: 11px;
@@ -449,6 +480,16 @@
       transition: transform 550ms ease;
     }
     .cat-card:hover .cat-img-wrap img { transform: scale(1.08); }
+
+    /* Carousel card sizing (desktop: 8 visible → becomes scrollable when >8 tiles) */
+    .cat-card {
+      flex: 0 0 calc((100% - (16px * 7)) / 8);
+      scroll-snap-align: start;
+    }
+    @media (max-width: 1100px) { .cat-card { flex-basis: calc((100% - (16px * 5)) / 6); } }
+    @media (max-width: 900px)  { .cat-card { flex-basis: calc((100% - (12px * 3)) / 4); } }
+    @media (max-width: 640px)  { .cat-card { flex-basis: calc((100% - (12px * 2)) / 3); } }
+    @media (max-width: 440px)  { .cat-card { flex-basis: calc((100% - (12px * 1)) / 2); } }
 
     /* Subtle colored tint overlay per card */
     .cat-img-wrap::after {
@@ -738,7 +779,7 @@
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 1100px) {
-      .cat-grid       { grid-template-columns: repeat(4, 1fr); }
+      /* carousel: handled by .cat-card flex-basis below */
       .footer-top     { grid-template-columns: 1fr 1fr; gap: 40px; }
       .story-stat     { right: 16px; }
     }
@@ -750,7 +791,7 @@
       .recipes-grid   { grid-template-columns: 1fr 1fr; }
       .nl-grid        { grid-template-columns: 1fr; gap: 48px; }
       .ig-grid        { grid-template-columns: repeat(3, 1fr); }
-      .cat-grid       { grid-template-columns: repeat(4, 1fr); }
+      /* carousel: handled by .cat-card flex-basis below */
     }
     @media (max-width: 640px) {
       .trust-item     { padding: 8px 14px; font-size: 11px; }
@@ -760,12 +801,12 @@
       .hero-title     { font-size: 42px; }
       .products-header, .recipes-header { flex-direction: column; align-items: flex-start; }
       .hero-scroll    { display: none; }
-      .cat-grid       { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .cat-grid       { gap: 12px; }
       .cat-section-header { flex-direction: column; align-items: flex-start; }
       .hero-badges    { display: none; }
     }
     @media (max-width: 400px) {
-      .cat-grid       { grid-template-columns: repeat(2, 1fr); }
+      /* carousel */
     }
   </style>
 </head>
@@ -1046,55 +1087,91 @@
       <div class="cat-option active" id="cat-opt-a" role="tabpanel">
         <span class="cat-option-label">Option A</span>
         <p class="cat-option-desc">Each category features a hero pack shot on a lifestyle backdrop — one unified palette, lighting and composition across the range.</p>
-        <div class="cat-grid" role="list">
-          <a href="https://earthgoods.com/shop/category/breakfast-on-the-go" class="cat-card fade-up" role="listitem" aria-label="Shop Breakfast On-The-Go">
-            <div class="cat-img-wrap">
-              <img src="images/cat-a-breakfast.jpg" alt="Earth Goods breakfast pack featured on lifestyle backdrop" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Breakfast<br>On-The-Go</span>
-          </a>
-          <a href="https://earthgoods.com/shop/category/cereals" class="cat-card fade-up" role="listitem" aria-label="Shop Cereals">
-            <div class="cat-img-wrap">
-              <img src="images/cat-a-cereals.jpg" alt="Earth Goods cereals pack featured on lifestyle backdrop" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Cereals</span>
-          </a>
-          <a href="https://earthgoods.com/shop/category/seeds" class="cat-card fade-up" role="listitem" aria-label="Shop Seeds">
-            <div class="cat-img-wrap">
-              <img src="images/cat-a-seeds.jpg" alt="Earth Goods seeds pack featured on lifestyle backdrop" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Seeds</span>
-          </a>
-          <a href="https://earthgoods.com/shop/category/oils" class="cat-card fade-up" role="listitem" aria-label="Shop Oils">
-            <div class="cat-img-wrap">
-              <img src="images/cat-a-oils.jpg" alt="Earth Goods oils pack featured on lifestyle backdrop" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Oils</span>
-          </a>
-          <a href="https://earthgoods.com/shop/category/plant-based-beverages" class="cat-card fade-up" role="listitem" aria-label="Shop Plant Based Beverages">
-            <div class="cat-img-wrap">
-              <img src="images/cat-a-plantmilk.jpg" alt="Earth Goods plant-based beverage pack featured on lifestyle backdrop" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Plant Based<br>Beverages</span>
-          </a>
-          <a href="category-raw-nuts.html" class="cat-card fade-up" role="listitem" aria-label="Shop Raw Nuts">
-            <div class="cat-img-wrap">
-              <img src="images/cat-a-nuts.jpg" alt="Earth Goods raw nuts pack featured on lifestyle backdrop" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Raw Nuts</span>
-          </a>
-          <a href="https://earthgoods.com/shop/category/spreads-syrups" class="cat-card fade-up" role="listitem" aria-label="Shop Spreads and Syrups">
-            <div class="cat-img-wrap">
-              <img src="images/cat-a-spreads.jpg" alt="Earth Goods spreads pack featured on lifestyle backdrop" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Spreads &amp;<br>Syrups</span>
-          </a>
-          <a href="https://earthgoods.com/shop/category/grains" class="cat-card fade-up" role="listitem" aria-label="Shop Grains">
-            <div class="cat-img-wrap">
-              <img src="images/cat-a-grains.jpg" alt="Earth Goods grains pack featured on lifestyle backdrop" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Grains</span>
-          </a>
+        <div class="cat-carousel-wrap">
+          <button type="button" class="cat-nav cat-nav-prev" data-cat-nav="prev" aria-label="Scroll categories left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button type="button" class="cat-nav cat-nav-next" data-cat-nav="next" aria-label="Scroll categories right">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+          <div class="cat-grid" role="list">
+            <a href="https://earthgoods.com/shop/category/breakfast-on-the-go" class="cat-card fade-up" role="listitem" aria-label="Shop Breakfast On-The-Go">
+              <div class="cat-img-wrap"><img src="images/cat-a-breakfast.jpg" alt="Breakfast pack on lifestyle backdrop" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Breakfast<br>On-The-Go</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/cereals" class="cat-card fade-up" role="listitem" aria-label="Shop Cereals">
+              <div class="cat-img-wrap"><img src="images/cat-a-cereals.jpg" alt="Cereals pack on lifestyle backdrop" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Cereals</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/seeds" class="cat-card fade-up" role="listitem" aria-label="Shop Seeds">
+              <div class="cat-img-wrap"><img src="images/cat-a-seeds.jpg" alt="Seeds pack on lifestyle backdrop" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Seeds</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/oils" class="cat-card fade-up" role="listitem" aria-label="Shop Oils">
+              <div class="cat-img-wrap"><img src="images/cat-a-oils.jpg" alt="Oils pack on lifestyle backdrop" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Oils</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/plant-based-beverages" class="cat-card fade-up" role="listitem" aria-label="Shop Plant Based Beverages">
+              <div class="cat-img-wrap"><img src="images/cat-a-plantmilk.jpg" alt="Plant-based beverage pack on lifestyle backdrop" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Plant Based<br>Beverages</span>
+            </a>
+            <a href="category-raw-nuts.html" class="cat-card fade-up" role="listitem" aria-label="Shop Raw Nuts">
+              <div class="cat-img-wrap"><img src="images/cat-a-nuts.jpg" alt="Raw nuts pack on lifestyle backdrop" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Raw Nuts</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/spreads-syrups" class="cat-card fade-up" role="listitem" aria-label="Shop Spreads and Syrups">
+              <div class="cat-img-wrap"><img src="images/cat-a-spreads.jpg" alt="Spreads pack on lifestyle backdrop" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Spreads &amp;<br>Syrups</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/grains" class="cat-card fade-up" role="listitem" aria-label="Shop Grains">
+              <div class="cat-img-wrap"><img src="images/cat-a-grains.jpg" alt="Grains pack on lifestyle backdrop" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Grains</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/pulses" class="cat-card fade-up" role="listitem" aria-label="Shop Pulses">
+              <div class="cat-img-wrap"><img src="images/cat-pulses.jpg" alt="Pulses lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Pulses</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/pasta" class="cat-card fade-up" role="listitem" aria-label="Shop Pasta">
+              <div class="cat-img-wrap"><img src="images/cat-pasta.jpg" alt="Pasta lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Pasta</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/flours" class="cat-card fade-up" role="listitem" aria-label="Shop Flours">
+              <div class="cat-img-wrap"><img src="images/cat-flours.jpg" alt="Flours lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Flours</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/tomatoes" class="cat-card fade-up" role="listitem" aria-label="Shop Tomatoes">
+              <div class="cat-img-wrap"><img src="images/cat-tomatoes.jpg" alt="Tomatoes lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Tomatoes</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/sugar-salt" class="cat-card fade-up" role="listitem" aria-label="Shop Sugar and Salt">
+              <div class="cat-img-wrap"><img src="images/cat-sugarsalt.jpg" alt="Sugar and salt lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Sugar &amp;<br>Salt</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/coconut-goodness" class="cat-card fade-up" role="listitem" aria-label="Shop Coconut Goodness">
+              <div class="cat-img-wrap"><img src="images/cat-coconut.jpg" alt="Coconut goodness lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Coconut<br>Goodness</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/crackers" class="cat-card fade-up" role="listitem" aria-label="Shop Crackers">
+              <div class="cat-img-wrap"><img src="images/cat-crackers.jpg" alt="Crackers lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Crackers</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/rice-cakes" class="cat-card fade-up" role="listitem" aria-label="Shop Rice Cakes">
+              <div class="cat-img-wrap"><img src="images/cat-ricecakes.jpg" alt="Rice cakes lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Rice Cakes</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/apple-cider-vinegar" class="cat-card fade-up" role="listitem" aria-label="Shop Apple Cider Vinegar">
+              <div class="cat-img-wrap"><img src="images/cat-vinegar.jpg" alt="Apple cider vinegar lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Apple Cider<br>Vinegar</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/eggs" class="cat-card fade-up" role="listitem" aria-label="Shop Eggs">
+              <div class="cat-img-wrap"><img src="images/cat-eggs.jpg" alt="Organic eggs lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Eggs</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/cow-milk" class="cat-card fade-up" role="listitem" aria-label="Shop Cow Milk">
+              <div class="cat-img-wrap"><img src="images/hero-farm.png" alt="Organic farm dairy" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Cow Milk</span>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -1102,55 +1179,91 @@
       <div class="cat-option" id="cat-opt-b" role="tabpanel">
         <span class="cat-option-label">Option B</span>
         <p class="cat-option-desc">Pure appetite-appeal lifestyle with no pack shot — ingredient-led photography styled to one cohesive look across the range.</p>
-        <div class="cat-grid" role="list">
-          <a href="https://earthgoods.com/shop/category/breakfast-on-the-go" class="cat-card fade-up" role="listitem" aria-label="Shop Breakfast On-The-Go">
-            <div class="cat-img-wrap">
-              <img src="images/cat-b-breakfast.jpg" alt="Appetising breakfast bowl lifestyle" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Breakfast<br>On-The-Go</span>
-          </a>
-          <a href="https://earthgoods.com/shop/category/cereals" class="cat-card fade-up" role="listitem" aria-label="Shop Cereals">
-            <div class="cat-img-wrap">
-              <img src="images/cat-b-cereals.jpg" alt="Appetising oats and cereals lifestyle" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Cereals</span>
-          </a>
-          <a href="https://earthgoods.com/shop/category/seeds" class="cat-card fade-up" role="listitem" aria-label="Shop Seeds">
-            <div class="cat-img-wrap">
-              <img src="images/cat-b-seeds.jpg" alt="Appetising chia and seeds lifestyle" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Seeds</span>
-          </a>
-          <a href="https://earthgoods.com/shop/category/oils" class="cat-card fade-up" role="listitem" aria-label="Shop Oils">
-            <div class="cat-img-wrap">
-              <img src="images/cat-b-oils.jpg" alt="Appetising organic oils lifestyle" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Oils</span>
-          </a>
-          <a href="https://earthgoods.com/shop/category/plant-based-beverages" class="cat-card fade-up" role="listitem" aria-label="Shop Plant Based Beverages">
-            <div class="cat-img-wrap">
-              <img src="images/cat-b-plantmilk.jpg" alt="Appetising plant-based milk lifestyle" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Plant Based<br>Beverages</span>
-          </a>
-          <a href="category-raw-nuts.html" class="cat-card fade-up" role="listitem" aria-label="Shop Raw Nuts">
-            <div class="cat-img-wrap">
-              <img src="images/cat-b-nuts.jpg" alt="Appetising raw nuts lifestyle" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Raw Nuts</span>
-          </a>
-          <a href="https://earthgoods.com/shop/category/spreads-syrups" class="cat-card fade-up" role="listitem" aria-label="Shop Spreads and Syrups">
-            <div class="cat-img-wrap">
-              <img src="images/cat-b-spreads.jpg" alt="Appetising spreads on toast lifestyle" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Spreads &amp;<br>Syrups</span>
-          </a>
-          <a href="https://earthgoods.com/shop/category/grains" class="cat-card fade-up" role="listitem" aria-label="Shop Grains">
-            <div class="cat-img-wrap">
-              <img src="images/cat-b-grains.jpg" alt="Appetising grains and quinoa lifestyle" loading="lazy" width="600" height="600">
-            </div>
-            <span class="cat-name">Grains</span>
-          </a>
+        <div class="cat-carousel-wrap">
+          <button type="button" class="cat-nav cat-nav-prev" data-cat-nav="prev" aria-label="Scroll categories left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button type="button" class="cat-nav cat-nav-next" data-cat-nav="next" aria-label="Scroll categories right">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+          <div class="cat-grid" role="list">
+            <a href="https://earthgoods.com/shop/category/breakfast-on-the-go" class="cat-card fade-up" role="listitem" aria-label="Shop Breakfast On-The-Go">
+              <div class="cat-img-wrap"><img src="images/cat-b-breakfast.jpg" alt="Appetising breakfast bowl lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Breakfast<br>On-The-Go</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/cereals" class="cat-card fade-up" role="listitem" aria-label="Shop Cereals">
+              <div class="cat-img-wrap"><img src="images/cat-b-cereals.jpg" alt="Appetising oats and cereals lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Cereals</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/seeds" class="cat-card fade-up" role="listitem" aria-label="Shop Seeds">
+              <div class="cat-img-wrap"><img src="images/cat-b-seeds.jpg" alt="Appetising chia and seeds lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Seeds</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/oils" class="cat-card fade-up" role="listitem" aria-label="Shop Oils">
+              <div class="cat-img-wrap"><img src="images/cat-b-oils.jpg" alt="Appetising organic oils lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Oils</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/plant-based-beverages" class="cat-card fade-up" role="listitem" aria-label="Shop Plant Based Beverages">
+              <div class="cat-img-wrap"><img src="images/cat-b-plantmilk.jpg" alt="Appetising plant-based milk lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Plant Based<br>Beverages</span>
+            </a>
+            <a href="category-raw-nuts.html" class="cat-card fade-up" role="listitem" aria-label="Shop Raw Nuts">
+              <div class="cat-img-wrap"><img src="images/cat-b-nuts.jpg" alt="Appetising raw nuts lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Raw Nuts</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/spreads-syrups" class="cat-card fade-up" role="listitem" aria-label="Shop Spreads and Syrups">
+              <div class="cat-img-wrap"><img src="images/cat-b-spreads.jpg" alt="Appetising spreads on toast lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Spreads &amp;<br>Syrups</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/grains" class="cat-card fade-up" role="listitem" aria-label="Shop Grains">
+              <div class="cat-img-wrap"><img src="images/cat-b-grains.jpg" alt="Appetising grains and quinoa lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Grains</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/pulses" class="cat-card fade-up" role="listitem" aria-label="Shop Pulses">
+              <div class="cat-img-wrap"><img src="images/cat-pulses.jpg" alt="Pulses lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Pulses</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/pasta" class="cat-card fade-up" role="listitem" aria-label="Shop Pasta">
+              <div class="cat-img-wrap"><img src="images/cat-pasta.jpg" alt="Pasta lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Pasta</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/flours" class="cat-card fade-up" role="listitem" aria-label="Shop Flours">
+              <div class="cat-img-wrap"><img src="images/cat-flours.jpg" alt="Flours lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Flours</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/tomatoes" class="cat-card fade-up" role="listitem" aria-label="Shop Tomatoes">
+              <div class="cat-img-wrap"><img src="images/cat-tomatoes.jpg" alt="Tomatoes lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Tomatoes</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/sugar-salt" class="cat-card fade-up" role="listitem" aria-label="Shop Sugar and Salt">
+              <div class="cat-img-wrap"><img src="images/cat-sugarsalt.jpg" alt="Sugar and salt lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Sugar &amp;<br>Salt</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/coconut-goodness" class="cat-card fade-up" role="listitem" aria-label="Shop Coconut Goodness">
+              <div class="cat-img-wrap"><img src="images/cat-coconut.jpg" alt="Coconut goodness lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Coconut<br>Goodness</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/crackers" class="cat-card fade-up" role="listitem" aria-label="Shop Crackers">
+              <div class="cat-img-wrap"><img src="images/cat-crackers.jpg" alt="Crackers lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Crackers</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/rice-cakes" class="cat-card fade-up" role="listitem" aria-label="Shop Rice Cakes">
+              <div class="cat-img-wrap"><img src="images/cat-ricecakes.jpg" alt="Rice cakes lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Rice Cakes</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/apple-cider-vinegar" class="cat-card fade-up" role="listitem" aria-label="Shop Apple Cider Vinegar">
+              <div class="cat-img-wrap"><img src="images/cat-vinegar.jpg" alt="Apple cider vinegar lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Apple Cider<br>Vinegar</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/eggs" class="cat-card fade-up" role="listitem" aria-label="Shop Eggs">
+              <div class="cat-img-wrap"><img src="images/cat-eggs.jpg" alt="Organic eggs lifestyle" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Eggs</span>
+            </a>
+            <a href="https://earthgoods.com/shop/category/cow-milk" class="cat-card fade-up" role="listitem" aria-label="Shop Cow Milk">
+              <div class="cat-img-wrap"><img src="images/hero-farm.png" alt="Organic farm dairy" loading="lazy" width="600" height="600"></div>
+              <span class="cat-name">Cow Milk</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -1313,10 +1426,11 @@
 
     </div>
 
-    <div style="text-align:center; margin-top:48px">
-      <a href="https://earthgoods.com/reviews" class="btn btn-outline" aria-label="View more customer stories and reviews">
+    <div style="text-align:center; margin-top:40px">
+      <a href="https://earthgoods.com/reviews" class="btn btn-outline" aria-label="View more customer stories and reviews"
+         style="padding:9px 18px; font-size:13px; letter-spacing:.02em; gap:6px;">
         View More Stories
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
     </div>
 
@@ -1585,7 +1699,38 @@
         });
         optA.classList.toggle('active', target === 'a');
         optB.classList.toggle('active', target === 'b');
+        // Re-sync arrow disabled state when switching tabs
+        window.dispatchEvent(new Event('resize'));
       });
+    });
+  })();
+
+  // Shop-by-category horizontal carousel arrows
+  (function initCatCarousels() {
+    const wraps = document.querySelectorAll('.cat-carousel-wrap');
+    wraps.forEach(wrap => {
+      const grid = wrap.querySelector('.cat-grid');
+      const prev = wrap.querySelector('[data-cat-nav="prev"]');
+      const next = wrap.querySelector('[data-cat-nav="next"]');
+      if (!grid || !prev || !next) return;
+      const step = () => {
+        const card = grid.querySelector('.cat-card');
+        if (!card) return 260;
+        const cs = getComputedStyle(grid);
+        const gap = parseFloat(cs.columnGap || cs.gap || '16');
+        return (card.getBoundingClientRect().width + gap) * 3;
+      };
+      const update = () => {
+        prev.disabled = grid.scrollLeft <= 2;
+        next.disabled = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 2;
+      };
+      prev.addEventListener('click', () => grid.scrollBy({ left: -step(), behavior: 'smooth' }));
+      next.addEventListener('click', () => grid.scrollBy({ left:  step(), behavior: 'smooth' }));
+      grid.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      window.addEventListener('load', update);
+      requestAnimationFrame(update);
+      update();
     });
   })();
 

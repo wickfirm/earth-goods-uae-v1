@@ -89,13 +89,33 @@
       padding: 22px 0;
       position: sticky; top: 92px; z-index: 40;
     }
+    .quick-rail-wrap { position: relative; }
     .quick-rail-inner {
       display: flex; gap: 10px;
       overflow-x: auto;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      padding: 2px 44px; /* room for arrows */
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 32px, #000 calc(100% - 32px), transparent 100%);
+              mask-image: linear-gradient(90deg, transparent 0, #000 32px, #000 calc(100% - 32px), transparent 100%);
     }
     .quick-rail-inner::-webkit-scrollbar { display: none; }
+
+    .qr-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #3a8c52; color: #fff; border: 2px solid #3a8c52;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 5;
+      box-shadow: 0 4px 14px rgba(30,60,35,.18);
+      transition: all 180ms ease;
+    }
+    .qr-nav:hover { background: #fff; color: #3a8c52; }
+    .qr-nav[disabled] { opacity: .25; cursor: not-allowed; pointer-events: none; }
+    .qr-nav svg { width: 16px; height: 16px; }
+    .qr-nav-prev { left: 4px; }
+    .qr-nav-next { right: 4px; }
     .qr-pill {
       padding: 10px 22px; flex-shrink: 0;
       font-family: var(--font-ui);
@@ -391,19 +411,54 @@
   <!-- ===== QUICK FILTER RAIL ===== -->
   <div class="quick-rail" role="tablist" aria-label="Quick filters">
     <div class="container">
-      <div class="quick-rail-inner">
-        <button class="qr-pill active" type="button">All Products</button>
-        <button class="qr-pill" type="button">★ Bestsellers</button>
-        <button class="qr-pill" type="button">New Arrivals</button>
-        <button class="qr-pill" type="button">On Sale</button>
-        <button class="qr-pill" type="button">Vegan</button>
-        <button class="qr-pill" type="button">Gluten-Free</button>
-        <button class="qr-pill" type="button">Non-GMO</button>
-        <button class="qr-pill" type="button">Sugar-Free</button>
-        <button class="qr-pill" type="button">Family Size</button>
+      <div class="quick-rail-wrap">
+        <button type="button" class="qr-nav qr-nav-prev" data-qr-nav="prev" aria-label="Scroll filters left">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button type="button" class="qr-nav qr-nav-next" data-qr-nav="next" aria-label="Scroll filters right">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="quick-rail-inner">
+          <button class="qr-pill active" type="button">All Products</button>
+          <button class="qr-pill" type="button">★ Bestsellers</button>
+          <button class="qr-pill" type="button">New Arrivals</button>
+          <button class="qr-pill" type="button">On Sale</button>
+          <button class="qr-pill" type="button">Vegan</button>
+          <button class="qr-pill" type="button">Gluten-Free</button>
+          <button class="qr-pill" type="button">Non-GMO</button>
+          <button class="qr-pill" type="button">Sugar-Free</button>
+          <button class="qr-pill" type="button">Family Size</button>
+        </div>
       </div>
     </div>
   </div>
+
+  <script>
+    (function initQuickRailNav() {
+      const wrap = document.querySelector('.quick-rail-wrap');
+      if (!wrap) return;
+      const rail = wrap.querySelector('.quick-rail-inner');
+      const prev = wrap.querySelector('[data-qr-nav="prev"]');
+      const next = wrap.querySelector('[data-qr-nav="next"]');
+      if (!rail || !prev || !next) return;
+      const step = () => {
+        const pill = rail.querySelector('.qr-pill');
+        if (!pill) return 200;
+        return (pill.getBoundingClientRect().width + 10) * 3;
+      };
+      const update = () => {
+        prev.disabled = rail.scrollLeft <= 2;
+        next.disabled = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 2;
+      };
+      prev.addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: 'smooth' }));
+      next.addEventListener('click', () => rail.scrollBy({ left:  step(), behavior: 'smooth' }));
+      rail.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      window.addEventListener('load', update);
+      requestAnimationFrame(update);
+      update();
+    })();
+  </script>
 
   <!-- ===== MAIN GRID ===== -->
   <section class="shop-main" id="products">
