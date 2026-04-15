@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Raw Nuts — Nature's Original Power Snack | Earth Goods UAE</title>
+  <meta name="description" content="Discover Earth Goods' hand-picked certified organic raw nuts — hazelnuts, almonds, cashews and more. Rich in plant protein and sourced from trusted farms across Turkey, Italy and Spain.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/shared.css">
+
+  <style>
+    /* ===== CATEGORY HERO ===== */
+    .cat-hero {
+      position: relative;
+      min-height: 64vh;
+      display: flex; align-items: flex-end;
+      overflow: hidden;
+    }
+    .cat-hero-bg {
+      position: absolute; inset: 0;
+      background: url('images/hero-cat-nuts.jpg') center center / cover no-repeat;
+      transform: scale(1.04); transition: transform 6s ease;
+    }
+    .cat-hero-bg.ready { transform: scale(1); }
+    .cat-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top,
+        rgba(10,22,12,.82) 0%,
+        rgba(10,22,12,.38) 48%,
+        rgba(10,22,12,.06) 82%,
+        transparent 100%);
+    }
+    .cat-hero-content {
+      position: relative; z-index: 2;
+      padding: 80px 0 90px; max-width: 720px; color: #fff;
+    }
+    .cat-hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-ui);
+      color: rgba(255,255,255,.78); font-size: 11px; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase; margin-bottom: 18px;
+    }
+    .cat-hero-eyebrow::before {
+      content: ''; display: block; width: 22px; height: 2px;
+      background: var(--orange); border-radius: 2px;
+    }
+    .cat-hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(42px, 6vw, 78px);
+      font-weight: 500; line-height: 1.05; letter-spacing: -.02em;
+      color: #fff; margin-bottom: 20px;
+    }
+    .cat-hero-title em { font-style: italic; color: rgba(255,230,180,.94); }
+    .cat-hero-desc {
+      font-size: 18px; line-height: 1.72; color: rgba(255,255,255,.86);
+      max-width: 580px; margin-bottom: 34px;
+    }
+
+    /* ===== BENEFIT STRIP ===== */
+    .benefits { background: var(--white); padding: 72px 0; }
+    .benefits-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px;
+    }
+    .benefit {
+      text-align: center;
+      padding: 0 12px;
+    }
+    .benefit-icon {
+      width: 68px; height: 68px; border-radius: 50%;
+      background: var(--green-light); color: var(--green);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 22px;
+    }
+    .benefit-icon svg { width: 28px; height: 28px; }
+    .benefit-title {
+      font-family: var(--font-head); font-size: 22px; font-weight: 500;
+      margin-bottom: 10px; color: var(--text);
+    }
+    .benefit-text {
+      font-size: 15px; line-height: 1.72; color: var(--text-muted);
+      max-width: 320px; margin: 0 auto;
+    }
+
+    /* ===== SOURCING STORY ===== */
+    .sourcing { background: var(--cream-alt); }
+    .sourcing-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .sourcing-img-wrap {
+      position: relative; aspect-ratio: 4/3; border-radius: var(--r-card); overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+    .sourcing-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .sourcing-stat {
+      position: absolute; bottom: 24px; left: 24px;
+      background: rgba(253,250,245,.96);
+      backdrop-filter: blur(10px);
+      padding: 18px 22px; border-radius: var(--r-card);
+      box-shadow: 0 10px 30px rgba(30,60,35,.14);
+    }
+    .sourcing-stat-n {
+      font-family: var(--font-head); font-size: 32px; font-weight: 600;
+      line-height: 1; color: var(--green-dark);
+    }
+    .sourcing-stat-l {
+      font-size: 11px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--text-muted); margin-top: 4px;
+    }
+    .sourcing-quote {
+      margin-top: 32px; padding: 24px 28px;
+      background: var(--white); border-left: 3px solid var(--orange);
+      border-radius: 0 var(--r-card) var(--r-card) 0;
+    }
+    .sourcing-quote p {
+      font-family: var(--font-head); font-style: italic;
+      font-size: 17px; line-height: 1.6; color: var(--text);
+    }
+    .sourcing-quote cite {
+      display: block; margin-top: 12px;
+      font-family: var(--font-ui); font-size: 12px; font-weight: 600;
+      letter-spacing: .04em; color: var(--text-muted); font-style: normal;
+    }
+
+    /* ===== PRODUCTS ===== */
+    .cat-products { background: var(--cream); }
+    .cat-products-header { text-align: center; margin-bottom: 52px; }
+    .cat-products-header .eyebrow { justify-content: center; }
+    .cat-products-header .eyebrow::before { display: none; }
+    .cat-products-header .eyebrow::after { content: ''; display: block; width: 20px; height: 2px; background: var(--green); border-radius: 2px; }
+
+    .filter-row {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin-bottom: 44px; flex-wrap: wrap;
+    }
+    .filter-pill {
+      padding: 10px 22px; font-family: var(--font-ui);
+      font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+      color: var(--text-muted); background: #fff; border: 1px solid var(--border);
+      border-radius: var(--r-pill); transition: all var(--ease); cursor: pointer;
+    }
+    .filter-pill:hover { color: var(--green); border-color: var(--green); }
+    .filter-pill.active { background: var(--green); color: #fff; border-color: var(--green); }
+
+    .products-grid-cat {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px;
+    }
+    .product-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--r-card); overflow: visible;
+      cursor: pointer; transition: transform var(--ease), box-shadow var(--ease);
+      position: relative; display: flex; flex-direction: column;
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+    .product-img-wrap {
+      position: relative; aspect-ratio: 1;
+      border-radius: var(--r-card) var(--r-card) 0 0;
+      overflow: hidden; background: var(--green-xlight);
+    }
+    .product-lifestyle-img { width: 100%; height: 100%; object-fit: cover; transition: transform 650ms ease; }
+    .product-card:hover .product-lifestyle-img { transform: scale(1.06); }
+
+    .product-body { padding: 22px 20px 20px; display: flex; flex-direction: column; flex: 1; }
+    .product-cat { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
+    .product-name {
+      font-family: var(--font-head); font-size: 18px; font-weight: 500; line-height: 1.28;
+      margin-bottom: 6px; color: var(--text);
+      min-height: 2.56em;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .product-desc {
+      font-size: 13px; line-height: 1.55; color: var(--text-muted);
+      margin-bottom: 18px; min-height: 3.1em;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .product-foot { display: flex; flex-direction: column; gap: 14px; margin-top: auto; }
+    .product-price-wrap { display: flex; align-items: baseline; gap: 10px; line-height: 1.1; }
+    .product-price { font-size: 22px; font-weight: 700; color: var(--green-dark); letter-spacing: -.01em; }
+    .product-price small { font-size: 12px; font-weight: 500; color: var(--text-muted); margin-right: 5px; letter-spacing: .06em; text-transform: uppercase; }
+    .add-btn-row { display: flex; justify-content: flex-end; }
+    .add-btn {
+      display: inline-flex; align-items: center; padding: 10px 22px;
+      background: var(--green-light); color: var(--green-dark);
+      border-radius: var(--r-pill); font-family: var(--font-body);
+      font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      transition: all var(--ease); white-space: nowrap;
+    }
+    .add-btn:hover { background: var(--green); color: #fff; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(58,140,82,.22); }
+
+    /* ===== RECIPES ===== */
+    .recipes-sec { background: var(--white); }
+    .recipes-header-cat { text-align: center; margin-bottom: 52px; }
+    .recipes-header-cat .eyebrow { justify-content: center; }
+    .recipes-header-cat .eyebrow::before { display: none; }
+    .recipes-header-cat .eyebrow::after { content: ''; display: block; width: 20px; height: 2px; background: var(--green); border-radius: 2px; }
+    .recipes-grid-cat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .recipe-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: var(--r-card);
+      overflow: hidden; cursor: pointer;
+      transition: transform var(--ease), box-shadow var(--ease);
+      display: flex; flex-direction: column;
+    }
+    .recipe-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+    .recipe-img { aspect-ratio: 4/3; overflow: hidden; position: relative; }
+    .recipe-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 650ms ease; }
+    .recipe-img::after {
+      content: ''; position: absolute; bottom: 14px; right: 14px;
+      width: 60px; height: 44px;
+      background: url('images/logo-watermark.png') center / contain no-repeat;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,.45));
+      pointer-events: none;
+    }
+    .recipe-card:hover .recipe-img img { transform: scale(1.06); }
+    .recipe-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+    .recipe-tags {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px;
+      min-height: 54px; align-content: flex-start;
+    }
+    .r-tag {
+      background: var(--green-light); color: var(--green-dark);
+      font-size: 9px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase;
+      padding: 4px 9px; border-radius: var(--r-pill); line-height: 1.4;
+    }
+    .recipe-title {
+      font-family: var(--font-head); font-size: 20px; font-weight: 500; line-height: 1.3;
+      margin-bottom: 12px; min-height: 2.6em;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .recipe-meta {
+      display: flex; gap: 18px; font-size: 13px; color: var(--text-muted); margin-top: auto;
+    }
+    .recipe-meta span { display: flex; align-items: center; gap: 5px; }
+
+    /* ===== CROSS-SELL ===== */
+    .crosssell { background: var(--cream-alt); padding: 72px 0; }
+    .crosssell-header { text-align: center; margin-bottom: 40px; }
+    .crosssell-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+      max-width: 960px; margin: 0 auto;
+    }
+    .xs-card {
+      position: relative; aspect-ratio: 16/9;
+      border-radius: var(--r-card); overflow: hidden;
+      cursor: pointer; transition: transform var(--ease), box-shadow var(--ease);
+      box-shadow: var(--shadow-card);
+    }
+    .xs-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+    .xs-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 650ms ease; }
+    .xs-card:hover img { transform: scale(1.06); }
+    .xs-overlay {
+      position: absolute; inset: 0; display: flex; align-items: flex-end;
+      padding: 28px;
+      background: linear-gradient(to top, rgba(10,22,12,.85) 0%, rgba(10,22,12,.3) 55%, transparent 100%);
+    }
+    .xs-label { color: #fff; }
+    .xs-label small {
+      display: block; font-family: var(--font-ui); font-size: 10px; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: rgba(255,235,180,.88); margin-bottom: 4px;
+    }
+    .xs-label h3 {
+      font-family: var(--font-head); font-size: 24px; font-weight: 500;
+      line-height: 1.2;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1100px) {
+      .products-grid-cat { grid-template-columns: repeat(2, 1fr); }
+      .sourcing-grid { gap: 48px; }
+    }
+    @media (max-width: 900px) {
+      .sourcing-grid { grid-template-columns: 1fr; gap: 40px; }
+      .benefits-grid { grid-template-columns: 1fr; gap: 40px; }
+      .recipes-grid-cat { grid-template-columns: 1fr 1fr; }
+      .crosssell-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .products-grid-cat { grid-template-columns: 1fr 1fr; }
+      .recipes-grid-cat { grid-template-columns: 1fr; }
+      .cat-hero-content { padding: 60px 0 70px; }
+      .filter-row { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann-bar" role="banner" aria-label="Promotion">
+  Free delivery on all orders over 100 AED &nbsp;&bull;&nbsp; UAE's #1 Certified Organic Store
+  <a href="#products" aria-label="Shop raw nuts">Shop Now &rarr;</a>
+</div>
+
+<!-- STICKY HEADER -->
+<header class="site-header" id="site-header" role="banner">
+  <div class="container">
+    <nav class="nav-wrap" role="navigation" aria-label="Main navigation">
+      <a href="index-v5.html" class="nav-logo" aria-label="Earth Goods — return to homepage">
+        <img src="https://earthgoods.com/assets/images/logo/logo.svg"
+             onerror="this.onerror=null;this.src='https://earthgoods.com/assets/images/logo/logo.png';"
+             alt="Earth Goods logo" width="200" height="72">
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="index-v5.html#shop">Shop</a></li>
+        <li><a href="index-v5.html#recipes">Recipes</a></li>
+        <li><a href="index-v5.html#story">Our Story</a></li>
+        <li><a href="#articles">Articles</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="nav-icon" aria-label="Search products">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <div class="cart-wrap">
+          <button class="nav-icon" aria-label="Shopping cart, 0 items">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          </button>
+          <span class="cart-dot" aria-hidden="true">0</span>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== CATEGORY HERO ===== -->
+  <section class="cat-hero" aria-labelledby="cat-heading">
+    <div class="cat-hero-bg" id="cat-hero-bg" role="img" aria-label="Raw organic nuts lifestyle"></div>
+    <div class="cat-hero-overlay" aria-hidden="true"></div>
+    <div class="container" style="width:100%">
+      <div class="cat-hero-content">
+        <div class="cat-hero-eyebrow">Raw Nuts Collection</div>
+        <h1 class="cat-hero-title" id="cat-heading">
+          Nature's Original<br><em>Power Snack.</em>
+        </h1>
+        <p class="cat-hero-desc">
+          Hand-picked, certified organic, nothing added. From the hazelnut orchards of Turkey
+          to the almond groves of Spain — raw nuts as they should be.
+        </p>
+        <a href="#products" class="btn btn-orange">
+          Shop the Collection
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb sits just below hero -->
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="index-v5.html">Home</a></li>
+        <li><a href="index-v5.html#shop">Shop</a></li>
+        <li><a href="index-v5.html#shop">Categories</a></li>
+        <li aria-current="page">Raw Nuts</li>
+      </ol>
+    </nav>
+  </div>
+
+  <!-- ===== BENEFITS STRIP ===== -->
+  <section class="benefits" aria-label="Why raw nuts">
+    <div class="container">
+      <div class="benefits-grid">
+        <div class="benefit fade-up">
+          <div class="benefit-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+          <h3 class="benefit-title">Nutrient Dense</h3>
+          <p class="benefit-text">Packed with plant protein, healthy fats, fibre, vitamin E and heart-loving magnesium — whole-food nutrition in every handful.</p>
+        </div>
+        <div class="benefit fade-up">
+          <div class="benefit-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          </div>
+          <h3 class="benefit-title">Honestly Sourced</h3>
+          <p class="benefit-text">Direct from certified organic farms in Turkey, Italy and Spain. Every batch traceable from orchard to pouch — no middlemen, no shortcuts.</p>
+        </div>
+        <div class="benefit fade-up">
+          <div class="benefit-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L9 9l-7 .75 5.5 4.75L5.5 22 12 18l6.5 4-1.5-7.5L22 9.75 15 9z"/></svg>
+          </div>
+          <h3 class="benefit-title">Infinitely Versatile</h3>
+          <p class="benefit-text">Snack straight from the pouch, bake into granola, blitz into homemade nut butter, or crumble over salads and bowls. One pantry staple, endless uses.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SOURCING STORY ===== -->
+  <section class="section sourcing" aria-labelledby="sourcing-heading">
+    <div class="container">
+      <div class="sourcing-grid">
+        <div class="sourcing-img-wrap fade-up">
+          <img src="images/story-hazelnut-orchard.jpg"
+               alt="Organic hazelnuts being hand-harvested at a family orchard in Ortahisar, Turkey"
+               loading="lazy" width="2400" height="1792">
+          <div class="sourcing-stat" aria-hidden="true">
+            <div class="sourcing-stat-n">4<sup>th</sup></div>
+            <div class="sourcing-stat-l">Generation Farmers</div>
+          </div>
+        </div>
+
+        <div class="fade-up">
+          <div class="eyebrow">From Orchard to Pouch</div>
+          <h2 class="h-display" id="sourcing-heading">
+            Trusted Farms.<br>Untouched Flavour.
+          </h2>
+          <p class="body-lg">
+            Our raw nuts come from the same families, the same orchards, the same patient growing
+            methods — year after year. No industrial shortcuts. No dry-roasting. Just sun, soil,
+            and hand-picked harvests that taste the way nature intended.
+          </p>
+          <p class="body-lg" style="margin-top:14px">
+            We visit every grower in person. We taste every batch. And we only put our name on nuts
+            we'd serve our own families.
+          </p>
+          <div class="sourcing-quote">
+            <p>"My grandfather planted these hazelnut trees in 1954. We still harvest them by hand, same as he did. That's the only way to get the flavour right."</p>
+            <cite>— Ahmet, 4th-generation grower, Ortahisar</cite>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRODUCTS GRID ===== -->
+  <section class="section cat-products" id="products" aria-labelledby="products-heading">
+    <div class="container">
+      <div class="cat-products-header">
+        <div class="eyebrow">Our Raw Nuts Collection</div>
+        <h2 class="h-display" id="products-heading">Hand-picked by us,<br>ready for you</h2>
+      </div>
+
+      <div class="filter-row" role="tablist" aria-label="Filter by nut type">
+        <button type="button" class="filter-pill active">All Nuts</button>
+        <button type="button" class="filter-pill">Hazelnuts</button>
+        <button type="button" class="filter-pill">Almonds</button>
+        <button type="button" class="filter-pill">Cashews</button>
+        <button type="button" class="filter-pill">Walnuts</button>
+        <button type="button" class="filter-pill">Pistachios</button>
+      </div>
+
+      <div class="products-grid-cat" role="list">
+
+        <article class="product-card fade-up" role="listitem">
+          <a href="product-hazelnuts.html">
+            <div class="product-img-wrap">
+              <img class="product-lifestyle-img" src="images/pdp-hazelnut-1.jpg"
+                   alt="Organic raw hazelnuts" loading="lazy" width="600" height="600">
+            </div>
+          </a>
+          <div class="product-body">
+            <div class="product-cat">Raw Nuts</div>
+            <h3 class="product-name"><a href="product-hazelnuts.html">Organic Raw Hazelnuts</a></h3>
+            <p class="product-desc">200g &middot; Certified Organic. Turkish-grown. Rich, buttery crunch — for baking and snacking.</p>
+            <div class="product-foot">
+              <div class="product-price-wrap">
+                <div class="product-price"><small>AED</small>28.00</div>
+              </div>
+              <div class="add-btn-row">
+                <button class="add-btn" aria-label="Add Organic Raw Hazelnuts to cart" type="button">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card fade-up" role="listitem">
+          <div class="product-img-wrap">
+            <img class="product-lifestyle-img" src="images/cat-a-nuts.jpg"
+                 alt="Organic raw almonds" loading="lazy" width="600" height="600">
+          </div>
+          <div class="product-body">
+            <div class="product-cat">Raw Nuts</div>
+            <h3 class="product-name">Organic Raw Almonds</h3>
+            <p class="product-desc">250g &middot; Certified Organic. Spanish-grown. Creamy, sweet — the ultimate everyday snack.</p>
+            <div class="product-foot">
+              <div class="product-price-wrap">
+                <div class="product-price"><small>AED</small>24.00</div>
+              </div>
+              <div class="add-btn-row">
+                <button class="add-btn" aria-label="Add Organic Raw Almonds to cart" type="button">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card fade-up" role="listitem">
+          <div class="product-img-wrap">
+            <img class="product-lifestyle-img" src="images/cat-b-nuts.jpg"
+                 alt="Organic raw cashews" loading="lazy" width="600" height="600">
+          </div>
+          <div class="product-body">
+            <div class="product-cat">Raw Nuts</div>
+            <h3 class="product-name">Organic Raw Cashews</h3>
+            <p class="product-desc">200g &middot; Certified Organic. Buttery, delicate — perfect for plant-based creams and cooking.</p>
+            <div class="product-foot">
+              <div class="product-price-wrap">
+                <div class="product-price"><small>AED</small>32.00</div>
+              </div>
+              <div class="add-btn-row">
+                <button class="add-btn" aria-label="Add Organic Raw Cashews to cart" type="button">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card fade-up" role="listitem">
+          <div class="product-img-wrap">
+            <img class="product-lifestyle-img" src="images/pdp-hazelnut-2.jpg"
+                 alt="Organic raw walnuts" loading="lazy" width="600" height="600">
+          </div>
+          <div class="product-body">
+            <div class="product-cat">Raw Nuts</div>
+            <h3 class="product-name">Organic Raw Walnuts</h3>
+            <p class="product-desc">200g &middot; Certified Organic. Italian-grown. Rich in omega-3 — earthy and nutritious.</p>
+            <div class="product-foot">
+              <div class="product-price-wrap">
+                <div class="product-price"><small>AED</small>29.00</div>
+              </div>
+              <div class="add-btn-row">
+                <button class="add-btn" aria-label="Add Organic Raw Walnuts to cart" type="button">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RECIPES ===== -->
+  <section class="section recipes-sec" aria-labelledby="recipes-heading">
+    <div class="container">
+      <div class="recipes-header-cat">
+        <div class="eyebrow">How to Enjoy</div>
+        <h2 class="h-display" id="recipes-heading">Recipes that start<br>with a handful of nuts</h2>
+      </div>
+
+      <div class="recipes-grid-cat" role="list">
+
+        <article class="recipe-card fade-up" role="listitem">
+          <div class="recipe-img">
+            <img src="images/pdp-hazelnut-3.jpg" alt="Homemade hazelnut butter on sourdough toast" loading="lazy" width="800" height="600">
+          </div>
+          <div class="recipe-body">
+            <div class="recipe-tags">
+              <span class="r-tag">Breakfast</span>
+              <span class="r-tag">Vegan</span>
+              <span class="r-tag">5 Ingredients</span>
+            </div>
+            <h3 class="recipe-title">Homemade Hazelnut Butter on Sourdough</h3>
+            <div class="recipe-meta">
+              <span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                10 min
+              </span>
+              <span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                Serves 2
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="recipe-card fade-up" role="listitem">
+          <div class="recipe-img">
+            <img src="images/recipe-smoothie-bowl.jpg" alt="Almond and banana smoothie bowl topped with granola" loading="lazy" width="800" height="600">
+          </div>
+          <div class="recipe-body">
+            <div class="recipe-tags">
+              <span class="r-tag">Breakfast</span>
+              <span class="r-tag">Smoothie</span>
+            </div>
+            <h3 class="recipe-title">Toasted Almond &amp; Banana Smoothie Bowl</h3>
+            <div class="recipe-meta">
+              <span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                8 min
+              </span>
+              <span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                Serves 1
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="recipe-card fade-up" role="listitem">
+          <div class="recipe-img">
+            <img src="images/recipe-chia-pudding.jpg" alt="Cashew cream pasta with walnut pesto" loading="lazy" width="800" height="600">
+          </div>
+          <div class="recipe-body">
+            <div class="recipe-tags">
+              <span class="r-tag">Dinner</span>
+              <span class="r-tag">Plant Based</span>
+              <span class="r-tag">Quick</span>
+            </div>
+            <h3 class="recipe-title">Cashew Cream Pasta with Walnut Pesto</h3>
+            <div class="recipe-meta">
+              <span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                25 min
+              </span>
+              <span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                Serves 4
+              </span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section faq-section" aria-labelledby="faq-heading">
+    <div class="container faq-inner">
+      <div class="faq-header">
+        <div class="eyebrow">Good to Know</div>
+        <h2 class="h-display" id="faq-heading">Raw Nuts FAQ</h2>
+        <p class="body-lg" style="margin:16px auto 0;text-align:center">
+          Everything you need to know about our certified organic raw nuts — from storage to sourcing.
+        </p>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>Are these nuts raw or roasted?</summary>
+          <div class="faq-body">
+            <p>All nuts in this collection are <strong>100% raw and unroasted</strong>. We never heat-treat, oil-roast or salt our nuts. This preserves the natural fats, vitamin E and delicate enzymes that roasting can damage — and gives you full control to roast at home if you prefer.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>How should I store raw nuts?</summary>
+          <div class="faq-body">
+            <p>Raw nuts contain natural oils that can go rancid if exposed to heat, light or air for too long. Once opened, we recommend transferring to an <strong>airtight container</strong> and keeping them in a cool, dark cupboard — or better still, in the fridge or freezer for up to 6 months.</p>
+            <p>UAE climate tip: the fridge is your friend. Cold storage keeps raw nuts fresh, crunchy and full-flavoured far longer than pantry storage.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Where do your nuts come from?</summary>
+          <div class="faq-body">
+            <p>Every nut in our range is sourced directly from certified organic farms. Hazelnuts from <strong>Ortahisar, Turkey</strong>. Almonds from <strong>Andalucía, Spain</strong>. Walnuts from <strong>Umbria, Italy</strong>. Cashews from fair-trade cooperatives in <strong>Kerala, India</strong>. We work with the same growers year after year and visit every farm in person before adding a product to our range.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Are these suitable for people with nut allergies?</summary>
+          <div class="faq-body">
+            <p>No — these are tree nuts and are not safe for anyone with a tree-nut allergy. Our products are also packaged in a facility that handles other tree nuts and sesame, so there is a risk of cross-contact. If you have a severe allergy, please consult your healthcare provider before consuming.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I soak these nuts for activated snacking?</summary>
+          <div class="faq-body">
+            <p>Yes — because our nuts are raw and unroasted, they're perfect for soaking. Cover with filtered water and a pinch of sea salt, soak for 8–12 hours, then drain and rinse. Soaked nuts are easier to digest and have a softer, creamier texture — ideal for smoothies, nut-milks, or homemade cheeses.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Do you offer bulk or family-size packs?</summary>
+          <div class="faq-body">
+            <p>Yes — most of our raw nuts are available in 200g, 500g and 1kg sizes. The larger the pack, the better the per-kilo value. If you're interested in even larger bulk orders for families, offices or wellness studios, email us at <a href="mailto:hello@earthgoods.com" style="color:var(--green);font-weight:600">hello@earthgoods.com</a> for custom pricing.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CROSS-SELL ===== -->
+  <section class="crosssell" aria-labelledby="xs-heading">
+    <div class="container">
+      <div class="crosssell-header">
+        <div class="eyebrow" style="justify-content:center">You Might Also Love</div>
+        <h2 class="h-display" id="xs-heading" style="font-size:clamp(26px,3vw,38px)">Explore more<br>organic goodness</h2>
+      </div>
+      <div class="crosssell-grid">
+        <a href="#" class="xs-card" aria-label="Shop Seeds">
+          <img src="images/cat-a-seeds.jpg" alt="Organic seeds lifestyle" loading="lazy" width="960" height="540">
+          <div class="xs-overlay">
+            <div class="xs-label">
+              <small>Category</small>
+              <h3>Seeds →</h3>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="xs-card" aria-label="Shop Spreads and Syrups">
+          <img src="images/cat-a-spreads.jpg" alt="Organic spreads lifestyle" loading="lazy" width="960" height="540">
+          <div class="xs-overlay">
+            <div class="xs-label">
+              <small>Category</small>
+              <h3>Spreads &amp; Syrups →</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHOLESOME CLUB ===== -->
+  <section class="wholesome-club" aria-labelledby="wc-heading">
+    <div class="wc-inner">
+      <div class="wc-eyebrow">Members Only</div>
+      <h2 class="wc-heading" id="wc-heading">Join Our Wholesome Club</h2>
+      <p class="wc-sub">Because good things come to those who sign up — exclusive recipes, early product drops and members-only discounts.</p>
+      <form id="wc-form" class="wc-form" novalidate>
+        <input type="email" class="wc-input" id="wc-email" name="email" placeholder="Email Address" autocomplete="email" aria-label="Email address" required>
+        <button type="submit" class="wc-submit" aria-label="Subscribe to Wholesome Club">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Subscribe
+        </button>
+      </form>
+      <p class="wc-note" id="wc-note">No spam, ever. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer" role="contentinfo" aria-label="Earth Goods site footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="f-logo">
+          <img src="https://earthgoods.com/assets/images/logo/logo.svg"
+               onerror="this.onerror=null;this.src='https://earthgoods.com/assets/images/logo/logo.png';"
+               alt="Earth Goods" width="165" height="60">
+        </div>
+        <p class="f-tagline">Empowering people to eat better, think clearer, and become better versions of themselves — one organic product at a time.</p>
+        <div class="f-social" aria-label="Follow us on social media">
+          <a href="https://www.instagram.com/earthgoodsae" aria-label="Follow Earth Goods on Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" aria-label="Follow Earth Goods on Facebook">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="#" aria-label="Follow Earth Goods on TikTok">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.12 8.12 0 004.74 1.52V6.76a4.85 4.85 0 01-.97-.07z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h3 class="f-col-h">Shop</h3>
+        <ul class="f-links" role="list">
+          <li><a href="index-v5.html#shop">All Products</a></li>
+          <li><a href="#">Breakfast &amp; Cereals</a></li>
+          <li><a href="#">Nuts &amp; Seeds</a></li>
+          <li><a href="#">Plant Milks</a></li>
+          <li><a href="#">Organic Oils</a></li>
+          <li><a href="#">Pasta &amp; Grains</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="f-col-h">Company</h3>
+        <ul class="f-links" role="list">
+          <li><a href="index-v5.html#story">Our Story</a></li>
+          <li><a href="#">News &amp; Articles</a></li>
+          <li><a href="index-v5.html#recipes">Recipes</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="f-col-h">Support</h3>
+        <ul class="f-links" role="list">
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Shipping Rates</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms &amp; Conditions</a></li>
+        </ul>
+        <div class="f-contact">
+          <p>Need help?</p>
+          <a href="mailto:hello@earthgoods.com">hello@earthgoods.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="f-copy">&copy; 2026 Earth Goods. All rights reserved. Made with care in the UAE.</p>
+      <nav class="f-legal" aria-label="Legal pages">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Sticky header scroll shadow
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 8);
+  }, { passive: true });
+
+  // Hero background zoom on load
+  const heroBg = document.getElementById('cat-hero-bg');
+  if (heroBg) window.addEventListener('load', () => heroBg.classList.add('ready'));
+
+  // Scroll-triggered fade-up animations
+  if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -44px 0px' });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  } else {
+    document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+  }
+
+  // Filter pills (demo, no actual filtering)
+  document.querySelectorAll('.filter-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // Wholesome Club form
+  const wcForm = document.getElementById('wc-form');
+  const wcNote = document.getElementById('wc-note');
+  if (wcForm) {
+    wcForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const email = document.getElementById('wc-email').value.trim();
+      if (!email) return;
+      wcNote.textContent = 'Welcome to the club! A confirmation is on its way.';
+      wcNote.classList.add('success');
+      wcForm.reset();
+    });
+  }
+</script>
+
+</body>
+</html>

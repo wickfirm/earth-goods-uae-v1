@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Explore All Categories — Every Corner of the Pantry | Earth Goods UAE</title>
+  <meta name="description" content="Explore all 18 Earth Goods organic food categories — from cereals and nuts to oils, plant milks and spreads. One pantry, endless possibilities.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/shared.css">
+
+  <style>
+    /* ===== HERO ===== */
+    .cats-hero {
+      position: relative;
+      min-height: 52vh;
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+    .cats-hero-bg {
+      position: absolute; inset: 0;
+      background: url('images/hero-categories.jpg') center center / cover no-repeat;
+      transform: scale(1.04); transition: transform 6s ease;
+    }
+    .cats-hero-bg.ready { transform: scale(1); }
+    .cats-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,22,12,.82) 0%, rgba(10,22,12,.35) 55%, rgba(10,22,12,.06) 100%);
+    }
+    .cats-hero-content {
+      position: relative; z-index: 2;
+      max-width: 820px; padding: 72px 0;
+      color: #fff;
+    }
+    .cats-hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-ui);
+      color: rgba(255,255,255,.78); font-size: 11px; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase; margin-bottom: 18px;
+    }
+    .cats-hero-eyebrow::before {
+      content: ''; display: block; width: 22px; height: 2px;
+      background: var(--orange); border-radius: 2px;
+    }
+    .cats-hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(42px, 6vw, 76px);
+      font-weight: 500; line-height: 1.05; letter-spacing: -.02em;
+      color: #fff; margin-bottom: 20px;
+    }
+    .cats-hero-title em { font-style: italic; color: rgba(255,230,180,.94); }
+    .cats-hero-desc {
+      font-size: 18px; line-height: 1.72; color: rgba(255,255,255,.86);
+      max-width: 620px;
+    }
+
+    /* ===== AT-A-GLANCE STATS ===== */
+    .glance {
+      background: var(--white);
+      padding: 44px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .glance-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+    }
+    .glance-item {
+      text-align: center;
+      padding: 10px 12px;
+      border-right: 1px solid var(--border);
+    }
+    .glance-item:last-child { border-right: none; }
+    .glance-n {
+      font-family: var(--font-head);
+      font-size: clamp(32px, 4vw, 48px); font-weight: 600;
+      line-height: 1; color: var(--green-dark);
+      margin-bottom: 6px;
+    }
+    .glance-l {
+      font-family: var(--font-ui);
+      font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ===== BENTO GRID — asymmetric categories ===== */
+    .bento {
+      padding: clamp(64px, 8vw, 100px) 0 clamp(40px, 6vw, 72px);
+    }
+    .bento-header {
+      text-align: center; margin-bottom: 52px;
+    }
+    .bento-header .eyebrow { justify-content: center; }
+    .bento-header .eyebrow::before { display: none; }
+    .bento-header .eyebrow::after { content: ''; display: block; width: 20px; height: 2px; background: var(--green); border-radius: 2px; }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 260px;
+      gap: 18px;
+    }
+
+    .bento-card {
+      position: relative;
+      border-radius: var(--r-card);
+      overflow: hidden;
+      background: var(--green-xlight);
+      cursor: pointer;
+      transition: transform var(--ease), box-shadow var(--ease);
+      text-decoration: none; color: inherit;
+      box-shadow: var(--shadow-card);
+    }
+    .bento-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+    .bento-card img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 700ms ease;
+    }
+    .bento-card:hover img { transform: scale(1.07); }
+    .bento-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,22,12,.88) 0%, rgba(10,22,12,.38) 48%, rgba(10,22,12,.06) 80%, transparent 100%);
+    }
+    .bento-content {
+      position: absolute; inset: 0;
+      padding: 22px 24px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      color: #fff; z-index: 2;
+    }
+    .bento-count {
+      font-family: var(--font-ui);
+      font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+      color: rgba(255,230,180,.92); margin-bottom: 6px;
+    }
+    .bento-name {
+      font-family: var(--font-head);
+      font-size: 22px; font-weight: 500; line-height: 1.18;
+      color: #fff; margin-bottom: 6px;
+    }
+    .bento-tag {
+      font-family: var(--font-head); font-style: italic;
+      font-size: 13px; line-height: 1.55; color: rgba(255,255,255,.82);
+      margin-bottom: 12px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .bento-link {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: var(--font-ui);
+      font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      color: rgba(255,230,180,1);
+      transition: color var(--ease);
+    }
+    .bento-card:hover .bento-link { color: #fff; }
+
+    /* Larger tile variants */
+    .bento-lg .bento-name { font-size: 32px; line-height: 1.08; margin-bottom: 10px; }
+    .bento-lg .bento-tag { font-size: 15px; }
+    .bento-md .bento-name { font-size: 26px; }
+
+    /* ===== SHOP BY BENEFIT ===== */
+    .benefits-sec {
+      background: var(--cream-alt);
+      padding: clamp(56px, 7vw, 88px) 0;
+    }
+    .benefits-header {
+      text-align: center; margin-bottom: 44px;
+    }
+    .benefits-header .eyebrow { justify-content: center; }
+    .benefits-header .eyebrow::before { display: none; }
+    .benefits-header .eyebrow::after { content: ''; display: block; width: 20px; height: 2px; background: var(--green); border-radius: 2px; }
+
+    .benefits-pills {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      max-width: 960px; margin: 0 auto;
+    }
+    .benefit-pill {
+      display: flex; align-items: center; gap: 14px;
+      padding: 20px 24px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r-card);
+      cursor: pointer;
+      transition: all var(--ease);
+      text-decoration: none; color: inherit;
+    }
+    .benefit-pill:hover {
+      transform: translateY(-3px);
+      border-color: var(--green);
+      box-shadow: var(--shadow-card);
+    }
+    .benefit-pill-icon {
+      width: 48px; height: 48px; flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--green-xlight);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--green-dark);
+    }
+    .benefit-pill-icon svg { width: 22px; height: 22px; }
+    .benefit-pill-text {
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .benefit-pill-title {
+      font-family: var(--font-head); font-size: 17px; font-weight: 500;
+      color: var(--text); line-height: 1.2;
+    }
+    .benefit-pill-sub {
+      font-size: 12px; color: var(--text-muted);
+    }
+
+    /* ===== COLLECTIONS BANNERS ===== */
+    .collections {
+      background: var(--white);
+      padding: clamp(64px, 8vw, 96px) 0;
+    }
+    .collections-header {
+      text-align: center; margin-bottom: 52px;
+    }
+    .collections-header .eyebrow { justify-content: center; }
+    .collections-header .eyebrow::before { display: none; }
+    .collections-header .eyebrow::after { content: ''; display: block; width: 20px; height: 2px; background: var(--green); border-radius: 2px; }
+
+    .collections-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    .coll-card {
+      position: relative;
+      aspect-ratio: 4/5;
+      border-radius: var(--r-card);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      text-decoration: none; color: inherit;
+      transition: transform var(--ease), box-shadow var(--ease);
+    }
+    .coll-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+    .coll-card img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 700ms ease;
+    }
+    .coll-card:hover img { transform: scale(1.06); }
+    .coll-card::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,22,12,.88) 0%, rgba(10,22,12,.24) 60%, transparent 100%);
+    }
+    .coll-content {
+      position: absolute; inset: 0;
+      padding: 32px 28px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      color: #fff; z-index: 2;
+    }
+    .coll-eyebrow {
+      font-family: var(--font-ui);
+      font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      color: rgba(255,230,180,.95); margin-bottom: 10px;
+    }
+    .coll-title {
+      font-family: var(--font-head);
+      font-size: clamp(22px, 2.4vw, 30px); font-weight: 500; line-height: 1.15;
+      margin-bottom: 8px;
+    }
+    .coll-desc {
+      font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.82);
+      margin-bottom: 14px;
+    }
+    .coll-link {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: var(--font-ui);
+      font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      color: rgba(255,230,180,1);
+    }
+
+    /* ===== OUR PROMISE STRIP ===== */
+    .promise { background: var(--green); padding: 40px 0; color: #fff; }
+    .promise-inner {
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px;
+    }
+    .promise-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 30px; font-size: 13px; font-weight: 600;
+      letter-spacing: .06em; text-transform: uppercase;
+      border-right: 1px solid rgba(255,255,255,.22);
+    }
+    .promise-item:last-child { border-right: none; }
+    .promise-item svg { width: 20px; height: 20px; color: rgba(255,235,180,.95); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1100px) {
+      .bento-grid { grid-template-columns: repeat(8, 1fr); grid-auto-rows: 240px; }
+      .glance-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .glance-item:nth-child(2) { border-right: none; }
+      .collections-grid { grid-template-columns: 1fr 1fr; }
+      .collections-grid .coll-card:last-child { grid-column: 1 / -1; aspect-ratio: 16/7; }
+    }
+    @media (max-width: 900px) {
+      .bento-grid { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 220px; }
+      .benefits-pills { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .bento-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 200px; }
+      .bento-card.bento-lg, .bento-card.bento-md {
+        grid-column: span 2 !important;
+        grid-row: span 1 !important;
+      }
+      .benefits-pills { grid-template-columns: 1fr; }
+      .collections-grid { grid-template-columns: 1fr; }
+      .collections-grid .coll-card:last-child { grid-column: auto; aspect-ratio: 4/5; }
+      .promise-item { padding: 10px 14px; font-size: 11px; border-right: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann-bar" role="banner" aria-label="Promotion">
+  Free delivery on all orders over 100 AED &nbsp;&bull;&nbsp; UAE's #1 Certified Organic Store
+  <a href="view-all-products.html">Shop Now &rarr;</a>
+</div>
+
+<!-- STICKY HEADER -->
+<header class="site-header" id="site-header" role="banner">
+  <div class="container">
+    <nav class="nav-wrap" role="navigation" aria-label="Main navigation">
+      <a href="index-v5.html" class="nav-logo" aria-label="Earth Goods — return to homepage">
+        <img src="https://earthgoods.com/assets/images/logo/logo.svg"
+             onerror="this.onerror=null;this.src='https://earthgoods.com/assets/images/logo/logo.png';"
+             alt="Earth Goods logo" width="200" height="72">
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="view-all-products.html">Shop</a></li>
+        <li><a href="index-v5.html#recipes">Recipes</a></li>
+        <li><a href="index-v5.html#story">Our Story</a></li>
+        <li><a href="#articles">Articles</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="nav-icon" aria-label="Search products">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <div class="cart-wrap">
+          <button class="nav-icon" aria-label="Shopping cart, 0 items">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          </button>
+          <span class="cart-dot" aria-hidden="true">0</span>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== HERO ===== -->
+  <section class="cats-hero" aria-labelledby="cats-heading">
+    <div class="cats-hero-bg" id="cats-hero-bg" aria-hidden="true"></div>
+    <div class="cats-hero-overlay" aria-hidden="true"></div>
+    <div class="container" style="width:100%">
+      <div class="cats-hero-content">
+        <div class="cats-hero-eyebrow">All 18 Categories</div>
+        <h1 class="cats-hero-title" id="cats-heading">
+          Explore Every Corner<br>of Our <em>Pantry.</em>
+        </h1>
+        <p class="cats-hero-desc">
+          Eighteen categories. A hundred-plus products. One shared promise — certified organic, honestly sourced, nothing you can't pronounce. Find what your kitchen is missing.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="index-v5.html">Home</a></li>
+        <li><a href="view-all-products.html">Shop</a></li>
+        <li aria-current="page">All Categories</li>
+      </ol>
+    </nav>
+  </div>
+
+  <!-- ===== AT-A-GLANCE ===== -->
+  <section class="glance" aria-label="Earth Goods pantry at a glance">
+    <div class="container">
+      <div class="glance-grid">
+        <div class="glance-item">
+          <div class="glance-n">18</div>
+          <div class="glance-l">Categories</div>
+        </div>
+        <div class="glance-item">
+          <div class="glance-n">112+</div>
+          <div class="glance-l">Products</div>
+        </div>
+        <div class="glance-item">
+          <div class="glance-n">14</div>
+          <div class="glance-l">Countries Sourced</div>
+        </div>
+        <div class="glance-item">
+          <div class="glance-n">40+</div>
+          <div class="glance-l">Certified Farms</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BENTO GRID ===== -->
+  <section class="bento" aria-labelledby="bento-heading">
+    <div class="container">
+      <div class="bento-header">
+        <div class="eyebrow">Shop by Category</div>
+        <h2 class="h-display" id="bento-heading">
+          Eighteen worlds,<br>one wholesome pantry
+        </h2>
+      </div>
+
+      <div class="bento-grid">
+
+        <!-- Row 1: large feature + 2 mediums -->
+        <a href="category-raw-nuts.html" class="bento-card bento-lg" style="grid-column: span 6; grid-row: span 2;">
+          <img src="images/cat-a-nuts.jpg" alt="Raw nuts category">
+          <div class="bento-content">
+            <div class="bento-count">12 Products · Featured</div>
+            <div class="bento-name">Raw Nuts</div>
+            <div class="bento-tag">From sunlit orchards in Turkey, Italy and Spain — never roasted, never salted.</div>
+            <div class="bento-link">Explore Category
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="bento-card bento-md" style="grid-column: span 3;">
+          <img src="images/cat-a-cereals.jpg" alt="Cereals category">
+          <div class="bento-content">
+            <div class="bento-count">12 Products</div>
+            <div class="bento-name">Cereals</div>
+            <div class="bento-tag">Slow-grown oats &amp; grains.</div>
+          </div>
+        </a>
+
+        <a href="#" class="bento-card bento-md" style="grid-column: span 3;">
+          <img src="images/cat-a-seeds.jpg" alt="Seeds category">
+          <div class="bento-content">
+            <div class="bento-count">8 Products</div>
+            <div class="bento-name">Seeds</div>
+            <div class="bento-tag">Chia, flax, sunflower &amp; pumpkin.</div>
+          </div>
+        </a>
+
+        <a href="#" class="bento-card" style="grid-column: span 3;">
+          <img src="images/cat-a-plantmilk.jpg" alt="Plant-based beverages">
+          <div class="bento-content">
+            <div class="bento-count">4 Products</div>
+            <div class="bento-name">Plant-Based Beverages</div>
+            <div class="bento-tag">Almond, oat &amp; coconut milks.</div>
+          </div>
+        </a>
+
+        <a href="#" class="bento-card" style="grid-column: span 3;">
+          <img src="images/cat-a-spreads.jpg" alt="Spreads and syrups">
+          <div class="bento-content">
+            <div class="bento-count">11 Products</div>
+            <div class="bento-name">Spreads &amp; Syrups</div>
+            <div class="bento-tag">Peanut butter, agave, tahini.</div>
+          </div>
+        </a>
+
+        <!-- Row 2: 4 mediums -->
+        <a href="#" class="bento-card bento-md" style="grid-column: span 4;">
+          <img src="images/cat-a-oils.jpg" alt="Oils category">
+          <div class="bento-content">
+            <div class="bento-count">6 Products</div>
+            <div class="bento-name">Oils</div>
+            <div class="bento-tag">Cold-pressed coconut, avocado &amp; sesame.</div>
+          </div>
+        </a>
+
+        <a href="#" class="bento-card bento-md" style="grid-column: span 4;">
+          <img src="images/cat-a-breakfast.jpg" alt="Breakfast on-the-go">
+          <div class="bento-content">
+            <div class="bento-count">9 Products</div>
+            <div class="bento-name">Breakfast On-The-Go</div>
+            <div class="bento-tag">Single-serve porridges &amp; mueslis.</div>
+          </div>
+        </a>
+
+        <a href="#" class="bento-card bento-md" style="grid-column: span 4;">
+          <img src="images/cat-a-grains.jpg" alt="Grains category">
+          <div class="bento-content">
+            <div class="bento-count">8 Products</div>
+            <div class="bento-name">Grains</div>
+            <div class="bento-tag">Quinoa, brown rice, buckwheat.</div>
+          </div>
+        </a>
+
+        <!-- Row 3: mix -->
+        <a href="#" class="bento-card" style="grid-column: span 3;">
+          <img src="images/cat-pulses.jpg" alt="Pulses category">
+          <div class="bento-content">
+            <div class="bento-count">6 Products</div>
+            <div class="bento-name">Pulses</div>
+            <div class="bento-tag">Lentils, chickpeas, beans.</div>
+          </div>
+        </a>
+
+        <a href="#" class="bento-card" style="grid-column: span 3;">
+          <img src="images/cat-pasta.jpg" alt="Pasta category">
+          <div class="bento-content">
+            <div class="bento-count">9 Products</div>
+            <div class="bento-name">Pasta</div>
+            <div class="bento-tag">Wheat, gluten-free, legume-based.</div>
+          </div>
+        </a>
+
+        <a href="#" class="bento-card bento-md" style="grid-column: span 6;">
+          <img src="images/cat-coconut.jpg" alt="Coconut goodness">
+          <div class="bento-content">
+            <div class="bento-count">6 Products · Signature</div>
+            <div class="bento-name">Coconut Goodness</div>
+            <div class="bento-tag">Flakes, chips, oil, milk — everything from the humble coconut.</div>
+            <div class="bento-link">Explore Category
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </div>
+        </a>
+
+        <!-- Row 4: more -->
+        <a href="#" class="bento-card" style="grid-column: span 3;">
+          <img src="images/cat-crackers.jpg" alt="Crackers category">
+          <div class="bento-content">
+            <div class="bento-count">5 Products</div>
+            <div class="bento-name">Crackers</div>
+            <div class="bento-tag">Seeds, za'atar, rosemary.</div>
+          </div>
+        </a>
+
+        <a href="#" class="bento-card" style="grid-column: span 3;">
+          <img src="images/cat-flours.jpg" alt="Flours category">
+          <div class="bento-content">
+            <div class="bento-count">7 Products</div>
+            <div class="bento-name">Flours</div>
+            <div class="bento-tag">Stone-milled &amp; gluten-free options.</div>
+          </div>
+        </a>
+
+        <a href="#" class="bento-card" style="grid-column: span 3;">
+          <img src="images/cat-ricecakes.jpg" alt="Rice cakes category">
+          <div class="bento-content">
+            <div class="bento-count">4 Products</div>
+            <div class="bento-name">Rice Cakes</div>
+            <div class="bento-tag">Light, crispy, endlessly toppable.</div>
+          </div>
+        </a>
+
+        <a href="#" class="bento-card" style="grid-column: span 3;">
+          <img src="images/cat-eggs.jpg" alt="Eggs category">
+          <div class="bento-content">
+            <div class="bento-count">3 Products</div>
+            <div class="bento-name">Eggs</div>
+            <div class="bento-tag">Free-range, pasture-raised.</div>
+          </div>
+        </a>
+
+        <!-- Row 5 -->
+        <a href="#" class="bento-card" style="grid-column: span 4;">
+          <img src="images/cat-tomatoes.jpg" alt="Tomatoes category">
+          <div class="bento-content">
+            <div class="bento-count">3 Products</div>
+            <div class="bento-name">Tomatoes</div>
+            <div class="bento-tag">Crushed, passata, sun-dried.</div>
+          </div>
+        </a>
+
+        <a href="#" class="bento-card" style="grid-column: span 4;">
+          <img src="images/cat-vinegar.jpg" alt="Apple cider vinegar">
+          <div class="bento-content">
+            <div class="bento-count">2 Products</div>
+            <div class="bento-name">Apple Cider Vinegar</div>
+            <div class="bento-tag">Raw, unfiltered, with the mother.</div>
+          </div>
+        </a>
+
+        <a href="#" class="bento-card" style="grid-column: span 4;">
+          <img src="images/cat-sugarsalt.jpg" alt="Sugar and salt">
+          <div class="bento-content">
+            <div class="bento-count">4 Products</div>
+            <div class="bento-name">Sugar &amp; Salt</div>
+            <div class="bento-tag">Coconut sugar, pink Himalayan.</div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SHOP BY BENEFIT ===== -->
+  <section class="benefits-sec" aria-labelledby="ben-heading">
+    <div class="container">
+      <div class="benefits-header">
+        <div class="eyebrow">A Different Way to Shop</div>
+        <h2 class="h-display" id="ben-heading">
+          Shop by How You<br>Want to Feel
+        </h2>
+        <p class="body-lg" style="margin:16px auto 0;text-align:center">
+          Looking for more protein? Fewer carbs? Gut-friendly staples? Start from the goal, not the category.
+        </p>
+      </div>
+
+      <div class="benefits-pills">
+        <a href="#" class="benefit-pill">
+          <div class="benefit-pill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+          <div class="benefit-pill-text">
+            <div class="benefit-pill-title">High Protein</div>
+            <div class="benefit-pill-sub">Lentils · Nuts · Seeds · Quinoa</div>
+          </div>
+        </a>
+
+        <a href="#" class="benefit-pill">
+          <div class="benefit-pill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div class="benefit-pill-text">
+            <div class="benefit-pill-title">Low Sugar</div>
+            <div class="benefit-pill-sub">Nothing added · Diabetic friendly</div>
+          </div>
+        </a>
+
+        <a href="#" class="benefit-pill">
+          <div class="benefit-pill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 7v7c0 5 4 9 8 10 4-1 8-5 8-10V7z"/><polyline points="9 12 11 14 15 10"/></svg>
+          </div>
+          <div class="benefit-pill-text">
+            <div class="benefit-pill-title">Omega-3 Rich</div>
+            <div class="benefit-pill-sub">Flax · Chia · Walnuts · Oils</div>
+          </div>
+        </a>
+
+        <a href="#" class="benefit-pill">
+          <div class="benefit-pill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 019-9 9 9 0 019 9 9 9 0 01-9 9 9 9 0 01-9-9z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div class="benefit-pill-text">
+            <div class="benefit-pill-title">Gut-Friendly</div>
+            <div class="benefit-pill-sub">Fibre-rich · Fermented · Live cultures</div>
+          </div>
+        </a>
+
+        <a href="#" class="benefit-pill">
+          <div class="benefit-pill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/></svg>
+          </div>
+          <div class="benefit-pill-text">
+            <div class="benefit-pill-title">Brain Boost</div>
+            <div class="benefit-pill-sub">Omega-3 · Vitamin E · Antioxidants</div>
+          </div>
+        </a>
+
+        <a href="#" class="benefit-pill">
+          <div class="benefit-pill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div class="benefit-pill-text">
+            <div class="benefit-pill-title">Kid-Safe</div>
+            <div class="benefit-pill-sub">Wholesome snacks the family loves</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CURATED COLLECTIONS ===== -->
+  <section class="collections" aria-labelledby="coll-heading">
+    <div class="container">
+      <div class="collections-header">
+        <div class="eyebrow">Curated Collections</div>
+        <h2 class="h-display" id="coll-heading">
+          Hand-picked<br>just for you
+        </h2>
+      </div>
+      <div class="collections-grid">
+
+        <a href="#" class="coll-card">
+          <img src="images/ig-2-breakfast.jpg" alt="New arrivals">
+          <div class="coll-content">
+            <div class="coll-eyebrow">Just Landed</div>
+            <div class="coll-title">New Arrivals</div>
+            <div class="coll-desc">Eight fresh additions to the Earth Goods pantry this season.</div>
+            <div class="coll-link">Shop New
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="coll-card">
+          <img src="images/cat-b-breakfast.jpg" alt="Best of spring">
+          <div class="coll-content">
+            <div class="coll-eyebrow">Seasonal</div>
+            <div class="coll-title">Best of Spring</div>
+            <div class="coll-desc">Our favourite picks for lighter, brighter cooking this April.</div>
+            <div class="coll-link">Shop Collection
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="coll-card">
+          <img src="images/cat-a-spreads.jpg" alt="Gift worthy">
+          <div class="coll-content">
+            <div class="coll-eyebrow">Gifting</div>
+            <div class="coll-title">Gift-Worthy</div>
+            <div class="coll-desc">Beautifully packaged pantry staples — ready to wrap and gift.</div>
+            <div class="coll-link">Shop Gifts
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== OUR PROMISE ===== -->
+  <section class="promise" aria-label="Our certifications and quality standards">
+    <div class="promise-inner">
+      <div class="promise-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L3 7v7a10 10 0 009 9.95 10 10 0 009-9.95V7z"/><polyline points="9 12 11 14 15 10"/></svg>
+        100% Organic
+      </div>
+      <div class="promise-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+        Non-GMO
+      </div>
+      <div class="promise-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C6 2 2 7 2 12s4 10 10 10 10-5 10-10S18 2 12 2z"/><path d="M8 12l2 2 6-6"/></svg>
+        Traceable
+      </div>
+      <div class="promise-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        No Added Sugar
+      </div>
+      <div class="promise-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        No Palm Oil
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHOLESOME CLUB ===== -->
+  <section class="wholesome-club" aria-labelledby="wc-heading">
+    <div class="wc-inner">
+      <div class="wc-eyebrow">Members Only</div>
+      <h2 class="wc-heading" id="wc-heading">Join Our Wholesome Club</h2>
+      <p class="wc-sub">Because good things come to those who sign up — exclusive recipes, early product drops and members-only discounts.</p>
+      <form id="wc-form" class="wc-form" novalidate>
+        <input type="email" class="wc-input" id="wc-email" name="email" placeholder="Email Address" autocomplete="email" aria-label="Email address" required>
+        <button type="submit" class="wc-submit" aria-label="Subscribe to Wholesome Club">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Subscribe
+        </button>
+      </form>
+      <p class="wc-note" id="wc-note">No spam, ever. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer" role="contentinfo" aria-label="Earth Goods site footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="f-logo">
+          <img src="https://earthgoods.com/assets/images/logo/logo.svg"
+               onerror="this.onerror=null;this.src='https://earthgoods.com/assets/images/logo/logo.png';"
+               alt="Earth Goods" width="165" height="60">
+        </div>
+        <p class="f-tagline">Empowering people to eat better, think clearer, and become better versions of themselves — one organic product at a time.</p>
+        <div class="f-social" aria-label="Follow us on social media">
+          <a href="https://www.instagram.com/earthgoodsae" aria-label="Follow Earth Goods on Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" aria-label="Follow Earth Goods on Facebook">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="#" aria-label="Follow Earth Goods on TikTok">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.12 8.12 0 004.74 1.52V6.76a4.85 4.85 0 01-.97-.07z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h3 class="f-col-h">Shop</h3>
+        <ul class="f-links" role="list">
+          <li><a href="view-all-products.html">All Products</a></li>
+          <li><a href="explore-all-categories.html">All Categories</a></li>
+          <li><a href="category-raw-nuts.html">Raw Nuts</a></li>
+          <li><a href="#">Plant Milks</a></li>
+          <li><a href="#">Organic Oils</a></li>
+          <li><a href="#">Pasta &amp; Grains</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="f-col-h">Company</h3>
+        <ul class="f-links" role="list">
+          <li><a href="index-v5.html#story">Our Story</a></li>
+          <li><a href="#">News &amp; Articles</a></li>
+          <li><a href="index-v5.html#recipes">Recipes</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="f-col-h">Support</h3>
+        <ul class="f-links" role="list">
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Shipping Rates</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms &amp; Conditions</a></li>
+        </ul>
+        <div class="f-contact">
+          <p>Need help?</p>
+          <a href="mailto:hello@earthgoods.com">hello@earthgoods.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="f-copy">&copy; 2026 Earth Goods. All rights reserved. Made with care in the UAE.</p>
+      <nav class="f-legal" aria-label="Legal pages">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Sticky header scroll shadow
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 8);
+  }, { passive: true });
+
+  // Hero bg ready
+  const heroBg = document.getElementById('cats-hero-bg');
+  if (heroBg) window.addEventListener('load', () => heroBg.classList.add('ready'));
+
+  // Wholesome Club form
+  const wcForm = document.getElementById('wc-form');
+  const wcNote = document.getElementById('wc-note');
+  if (wcForm) {
+    wcForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const email = document.getElementById('wc-email').value.trim();
+      if (!email) return;
+      wcNote.textContent = 'Welcome to the club! A confirmation is on its way.';
+      wcNote.classList.add('success');
+      wcForm.reset();
+    });
+  }
+</script>
+
+</body>
+</html>
